@@ -1,16 +1,20 @@
 <script setup>
 import { ref } from 'vue';
 import { my_project_backend } from 'declarations/my_project_backend/index';
-let greeting = ref('');
+let msg = ref('');
 
 async function handleSubmit(e) {
   e.preventDefault();
   const target = e.target;
-  const name = target.querySelector('#name').value;
-  await my_project_backend.greet(name).then((response) => {
-    greeting.value = response;
-  });
+  const newMsg = target.querySelector('#newMsg').value;
+  await my_project_backend.set_msg(newMsg);
 }
+
+async function getMSG() {
+  msg.value = await my_project_backend.get_msg()
+}
+getMsg()
+
 </script>
 
 <template>
@@ -19,10 +23,10 @@ async function handleSubmit(e) {
     <br />
     <br />
     <form action="#" @submit="handleSubmit">
-      <label for="name">Enter your name: &nbsp;</label>
-      <input id="name" alt="Name" type="text" />
+      <label for="newMsg">Enter your newMsg: &nbsp;</label>
+      <input id="newMsg" alt="newMsg" type="text" />
       <button type="submit">Click Me!</button>
     </form>
-    <section id="greeting">{{ greeting }}</section>
+    <section id="msg">{{ msg }}</section>
   </main>
 </template>
