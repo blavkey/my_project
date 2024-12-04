@@ -8,13 +8,14 @@ async function handleSubmit(e) {
   const target = e.target;
   const newMsg = target.querySelector('#newMsg').value;
   await my_project_backend.add_msg(newMsg);
-  await getCHAT()
+  await getChat()
 }
 
-async function getCHAT() {
+async function getChat() {
   chat.value = await my_project_backend.get_chat()
 }
 
+getChat()
 </script>
 
 <template>
@@ -27,6 +28,9 @@ async function getCHAT() {
       <input id="newMsg" alt="newMsg" type="text" />
       <button type="submit">Click Me!</button>
     </form>
-    <section id="chat">{{ chat }}</section>
+    <button @click="getChat">Refresh</button>
+    <section id="chat">
+      <div v-for="msg in chat">{{msg}}</div>
+    </section>
   </main>
 </template>
